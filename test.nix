@@ -41,11 +41,6 @@ nixosTest ({ lib, pkgs, ... }: {
         };
       };
     };
-    john = {
-      services.consul = {
-        enable = true;
-      };
-    };
     jared = {
       networking.firewall.allowedTCPPorts = [
         8000
@@ -60,17 +55,14 @@ nixosTest ({ lib, pkgs, ... }: {
   };
   testScript = ''
     jeff.start()
-    # john.start()
     jared.start()
     client.start()
 
     jeff.wait_for_unit("multi-user.target")
-    # john.wait_for_unit("multi-user.target")
     jared.wait_for_unit("multi-user.target")
     client.wait_for_unit("multi-user.target")
 
     jeff.require_unit_state("traefik.service")
-    # john.require_unit_state("consul.service")
     jared.require_unit_state("simplehttp.service")
 
     client.succeed("curl http://jared:8000")
