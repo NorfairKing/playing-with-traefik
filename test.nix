@@ -1,9 +1,6 @@
 { nixosTest
 , python3
 }:
-let
-  consulIP = "192.168.1.66";
-in
 nixosTest ({ lib, pkgs, ... }: {
   name = "traifik-idea-test";
   nodes = {
@@ -26,7 +23,7 @@ nixosTest ({ lib, pkgs, ... }: {
               address = ":80";
             };
           };
-          providers.consul.endpoints = [ "${consulIP}:8500" ];
+          providers.consul.endpoints = [ "john:8500" ];
         };
       };
     };
@@ -47,15 +44,12 @@ nixosTest ({ lib, pkgs, ... }: {
       };
     };
     john = {
-      networking.interfaces.eth1.ipv4.addresses = pkgs.lib.mkOverride 0 [
-        { address = consulIP; prefixLength = 16; }
-      ];
       services.consul = {
         enable = true;
         extraConfig = {
           server = true;
           bootstrap_expect = 1;
-          bind_addr = consulIP;
+          bind_addr = "0.0.0.0";
           disable_update_check = true;
         };
       };
