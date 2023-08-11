@@ -6,6 +6,7 @@ let
   jaredIP = "192.168.1.2";
   johnIP = "192.168.1.3";
   clientIP = "192.168.1.4";
+
 in
 nixosTest ({ lib, pkgs, ... }: {
   name = "traifik-idea-test";
