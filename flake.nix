@@ -35,7 +35,6 @@
           ]);
 
         shellHook = self.checks.${system}.pre-commit.shellHook;
-
       };
     };
 }
